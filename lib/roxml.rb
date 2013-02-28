@@ -28,6 +28,14 @@ module ROXML # :nodoc:
   end
 
   module InstanceMethods # :nodoc:
+    def initialize(*arguments)
+      attributes = arguments.first.is_a?(Hash) ? arguments.first : {}
+      
+      attributes.each {|name, value| send("#{name}=", value) }
+      
+      super()
+    end
+    
     # Returns an XML object representing this object
     def to_xml(params = {})
       params.reverse_merge!(:name => self.class.tag_name, :namespace => self.class.roxml_namespace)

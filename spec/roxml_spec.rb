@@ -6,6 +6,13 @@ describe ROXML do
       ROXML::VERSION.should == File.read('VERSION')
     end
   end
+  
+  describe "#initialize" do
+    it "should provide mass assignment through initialize method" do
+      book = Book.new(isbn: '123')
+      book.isbn.should == '123'
+    end
+  end
 
   describe "#from_xml" do
     shared_examples_for "from_xml call" do
