@@ -116,6 +116,8 @@ module ROXML
         vals.map do |val|
           yield val
         end
+      elsif opts.sought_type_argument_is_a_nodeset?
+        yield(vals)
       else
         yield(vals.first)
       end

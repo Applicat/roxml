@@ -10,6 +10,12 @@ describe ROXML::XMLObjectRef do
       @value = value
     end
   end
+  
+  class SubObjectList < Array
+    def self.from_xml(node_set)
+      self.new(node_set.map{|xml| SubObject.from_xml(xml)})
+    end
+  end
 
   before do
     @xml = ROXML::XML.parse_string %(
@@ -31,6 +37,19 @@ describe ROXML::XMLObjectRef do
       @ref.value_in(@xml).value.should == "first"
     end
     it "should output one instance"
+  end
+  
+  describe 'sought_type_argument_is_a_nodeset?' do
+    before do
+      @ref = ROXML::XMLObjectRef.new(
+        OpenStruct.new(:name => 'name', :wrapper => 'node', :array? => false, :sought_type => SubObjectList, :sought_type_argument_is_a_nodeset? => true), 
+        RoxmlObject.new
+      )
+    end
+
+    it "should return all instances" do
+      @ref.value_in(@xml).map(&:value).should == ["first", "second", "third"]
+    end
   end
   
   context "with :as => []" do
