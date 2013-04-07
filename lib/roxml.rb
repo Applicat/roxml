@@ -312,6 +312,40 @@ module ROXML # :nodoc:
       # You can skip the wrapper argument:
       #    xml_reader :books, :as => [Book]
       #
+      # Another aggregation example for multiple lists which should be mapped to one list 
+      #  <library>
+      #   <books_list type="x">
+      #     <book/>
+      #   </books_list>
+      #   <books_list type="y">
+      #     <book/>
+      #   </books_list>     
+      # </library>
+      #
+      # You can put them in one list by passing sought_type_argument_is_a_nodeset and your custom list object
+      #
+      #  class Library
+      #    xml_reader :books, :as => BookList, :sought_type_argument_is_a_nodeset? => true
+      #  end
+      #
+      #  class BookList < Array
+      #    def self.from_xml(lists)
+      #      books = []
+      # 
+      #      lists.each do |list| 
+      #        books += xml_element.xpath('book').map do |xml| Book.from_xml(xml, :type => list.xpath('type').text) }
+      #      end
+      #     
+      #      self.new(books)
+      #    end
+      #
+      #    def [](type)
+      #      select{|book| book.type == type }
+      #    end
+      #  end
+      #
+      #  library.books['x'] = [#<Book type="x">]
+      #
       # ==== Hash
       # Somewhere between the simplicity of a :text/:attr mapping, and the complexity of
       # a full Object/Type mapping, lies the Hash mapping.  It serves in the case where you have
