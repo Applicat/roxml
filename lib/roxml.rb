@@ -314,18 +314,18 @@ module ROXML # :nodoc:
       #
       # Another aggregation example for multiple lists which should be mapped to one list 
       #  <library>
-      #   <books_list type="x">
+      #   <book_list type="x">
       #     <book/>
-      #   </books_list>
-      #   <books_list type="y">
+      #   </book_list>
+      #   <book_list type="y">
       #     <book/>
-      #   </books_list>     
+      #   </book_list>     
       # </library>
       #
       # You can put them in one list by passing sought_type_argument_is_a_nodeset and your custom list object
       #
       #  class Library
-      #    xml_reader :books, :as => BookList, :sought_type_argument_is_a_nodeset? => true
+      #    xml_reader :books, :from => 'book_list', :as => BookList, :sought_type_argument_is_a_nodeset? => true
       #  end
       #
       #  class BookList < Array
